@@ -1,5 +1,7 @@
 # pyodbc-mssql-lambda-layer
 
+[![Docker Image CI](https://github.com/davidcomerford/pyodbc-mssql-lambda-layer/actions/workflows/docker-image.yml/badge.svg)](https://github.com/davidcomerford/pyodbc-mssql-lambda-layer/actions/workflows/docker-image.yml)
+
 AWS Lambda layer to connect to SQL Server using PyODBC, UnixODBC and Microsoft ODBC 18 driver for SQL Server.
 
 ## Features 
