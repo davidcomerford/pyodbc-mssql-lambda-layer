@@ -16,3 +16,15 @@ jobs:
     - uses: actions/checkout@v3
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+
+    - name: Create Container from Image
+      run: docker create --name temp-container my-image-name:$(date +%s)
+
+    - name: Copy ZIP file from Container
+      run: docker cp temp-container:/layer.zip ./layer.zip
+
+    - name: Upload Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: layer.zip
+        tag_name: ${{ github.ref }}
