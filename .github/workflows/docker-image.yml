@@ -18,7 +18,7 @@ jobs:
       run: docker build . --file Dockerfile --tag mssql-lambda
 
     - name: Create Container from Image
-      run: docker run --rm --volume $(pwd):/tmp mssql-lambda cp /layer.zip /tmp/
+      run: docker run --rm --volume $(pwd):/tmp mssql-lambda cp /layer.zip /tmp/pyodbc-mssql-python312-x86_64.zip
 
     - name: Upload layer artifact
       uses: actions/upload-artifact@v4
