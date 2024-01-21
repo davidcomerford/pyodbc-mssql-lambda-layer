@@ -20,13 +20,11 @@ jobs:
     - name: Create Container from Image
       run: docker run --rm --volume $(pwd):/tmp mssql-lambda cp /layer.zip /tmp/
 
-#       - run: echo hello > path/to/artifact/world.txt
-# - uses: actions/upload-artifact@v4
-#   with:
-#     name: my-artifact
-#     path: path/to/artifact/world.txt
-
-
+    - name: Upload layer artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: pyodbc-layer
+        path: layer.zip
 
     # - name: Copy ZIP file from Container
     #   run: docker cp temp-container:/layer.zip ./layer.zip
