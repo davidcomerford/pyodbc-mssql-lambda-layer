@@ -34,3 +34,4 @@ AWS Lambda layer to connect to SQL Server using PyODBC, UnixODBC and Microsoft O
 unzip layer.zip -d layer-test
 cd layer-test
 docker run --rm -v $(pwd):/opt -it amazonlinux /bin/bash
+
