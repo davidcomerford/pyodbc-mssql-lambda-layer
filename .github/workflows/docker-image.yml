@@ -8,12 +8,13 @@ on:
 
 jobs:
 
-  Build-x86_64:
+  Build:
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
+
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag mssql-lambda
 
@@ -30,4 +31,3 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         artifacts: pyodbc-mssql-python312-x86_64.zip
-        tag: latest
