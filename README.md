@@ -14,16 +14,19 @@ AWS Lambda layer to connect to SQL Server using PyODBC, UnixODBC and Microsoft O
 
     I'm pulling the latest version from the Amazon Linux 2023 repository so that'll tick your security boxes.
 
-# Download
+# Download Prebuilt Release
 
+https://github.com/davidcomerford/pyodbc-mssql-lambda-layer/releases/latest
 
-# Build your own
+<br>
+
+# Or Build Your Own
 
 1. Download the Dockerfile
 
 1. Build image
     ```bash
-    docker build --no-cache -t mssql-lambda .
+    docker build -t mssql-lambda .
     ```
 1. Run a temporary container to get the zip file 
     ```bash
@@ -31,7 +34,8 @@ AWS Lambda layer to connect to SQL Server using PyODBC, UnixODBC and Microsoft O
     ```
 
 ## Test it
+```bash
 unzip layer.zip -d layer-test
 cd layer-test
 docker run --rm -v $(pwd):/opt -it amazonlinux /bin/bash
-
+```
