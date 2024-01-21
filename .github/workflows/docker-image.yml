@@ -24,13 +24,20 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: pyodbc-layer
-        path: layer.zip
+        path: pyodbc-mssql-python312-x86_64.zip
 
-    # - name: Copy ZIP file from Container
-    #   run: docker cp temp-container:/layer.zip ./layer.zip
+    - name: Create release
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: pyodbc-mssql-python312-x86_64.zip
 
-    # - name: Upload Release
-    #   uses: softprops/action-gh-release@v1
+    # - name: Create Release
+    #   id: create_release
+    #   uses: actions/create-release@v1
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     #   with:
-    #     files: layer.zip
     #     tag_name: ${{ github.ref }}
+    #     release_name: Release ${{ github.ref }}
+    #     draft: false
+    #     prerelease: false
