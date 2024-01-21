@@ -24,7 +24,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: pyodbc-mssql-python312-x86_64.zip
-        path: cpyodbc-mssql-python312-x86_64.zip
+        path: pyodbc-mssql-python312-x86_64.zip
 
     - name: Create release
       uses: ncipollo/release-action@v1
