@@ -20,7 +20,7 @@ RUN mv /root/unixODBC-install/bin /opt/bin
 RUN mv /root/unixODBC-install/lib /opt/lib
 
 # Install msodbcsql
-RUN curl https://packages.microsoft.com/config/rhel/7/prod.repo | tee /etc/yum.repos.d/mssql-release.repo
+RUN curl https://packages.microsoft.com/config/rhel/9/prod.repo | tee /etc/yum.repos.d/mssql-release.repo
 RUN ACCEPT_EULA=Y dnf install -y msodbcsql18
 
 # Install pyodbc
