@@ -47,8 +47,6 @@ jobs:
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: |
-            pyodbc-mssql-python312-x86_64.zip
-            pyodbc-mssql-python312-arm64.zip
+          artifacts: "*.zip"
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref_name }}
