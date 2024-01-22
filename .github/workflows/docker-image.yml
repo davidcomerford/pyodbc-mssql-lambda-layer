@@ -35,12 +35,16 @@ jobs:
       with:
         name: pyodbc-mssql-python312-${{ matrix.architecture }}.zip
         path: pyodbc-mssql-python312-${{ matrix.architecture }}.zip
+        retention-days: 1
 
   create-release:
     needs: build
     runs-on: ubuntu-latest
 
     steps:
+      - name: List artifacts
+        run: ls -R
+
       - name: Download Artifacts
         uses: actions/download-artifact@v2
         with:
