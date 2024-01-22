@@ -10,6 +10,7 @@ jobs:
     strategy:
       matrix:
         architecture: [x86_64] # [x86_64, arm64]
+        python-version: ['3.11', '3.12']
     
     steps:
     - uses: actions/checkout@v3
@@ -24,7 +25,7 @@ jobs:
 
     - name: Build the Docker image
       run: |
-        docker buildx build --platform linux/${{ matrix.architecture }} --load --file Dockerfile --tag mssql-lambda-${{ matrix.architecture }} .
+        docker buildx build --platform linux/${{ matrix.architecture }} --load --file Dockerfile.python.${{ matrix.python-version }} --tag mssql-lambda-${{ matrix.architecture }} .
 
     - name: Create Container from Image
       run: |
@@ -33,25 +34,19 @@ jobs:
     - name: Upload layer artifact
       uses: actions/upload-artifact@v4
       with:
-        name: pyodbc-mssql-python312-${{ matrix.architecture }}
-        path: pyodbc-mssql-python312-${{ matrix.architecture }}.zip
+        name: pyodbc-mssql-python-${{ matrix.python-version }}-${{ matrix.architecture }}
+        path: pyodbc-mssql-python-${{ matrix.python-version }}-${{ matrix.architecture }}.zip
         retention-days: 1
-
-    - name: List artifacts
-      run: ls -R
 
   create-release:
     needs: build
     runs-on: ubuntu-latest
 
     steps:
-      - name: List artifacts
-        run: ls -R
-
       - name: Download Artifacts
         uses: actions/download-artifact@v4
         with:
-          name: pyodbc-mssql-python312-x86_64
+          name: *.zip
 
       - name: List artifacts
         run: ls -R
