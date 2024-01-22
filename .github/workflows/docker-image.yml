@@ -48,7 +48,7 @@ jobs:
       - name: Download Artifacts
         uses: actions/download-artifact@v2
         with:
-          name: "*.zip"
+          name: "pyodbc-mssql-python312-x86_64.zip"
 
       - name: List artifacts
         run: ls -R
