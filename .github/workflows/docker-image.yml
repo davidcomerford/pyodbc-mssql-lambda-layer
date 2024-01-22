@@ -34,7 +34,7 @@ jobs:
     - name: Upload layer artifact
       uses: actions/upload-artifact@v4
       with:
-        name: pyodbc-mssql-python-${{ matrix.python-version }}-${{ matrix.architecture }}
+        name: pyodbc-mssql-python-${{ matrix.python-version }}-${{ matrix.architecture }}.zip
         path: pyodbc-mssql-python-${{ matrix.python-version }}-${{ matrix.architecture }}.zip
         retention-days: 1
 
