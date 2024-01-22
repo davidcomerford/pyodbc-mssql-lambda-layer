@@ -37,6 +37,9 @@ jobs:
         path: pyodbc-mssql-python312-${{ matrix.architecture }}.zip
         retention-days: 1
 
+    - name: List artifacts
+      run: ls -R
+
   create-release:
     needs: build
     runs-on: ubuntu-latest
