@@ -11,7 +11,7 @@ jobs:
       matrix:
         architecture: [x86_64] # [x86_64, arm64]
         python-version: ['3.11', '3.12']
-    
+
     steps:
     - uses: actions/checkout@v3
 
@@ -46,7 +46,7 @@ jobs:
       - name: Download Artifacts
         uses: actions/download-artifact@v4
         with:
-          name: *.zip
+          name: "*.zip"
 
       - name: List artifacts
         run: ls -R
