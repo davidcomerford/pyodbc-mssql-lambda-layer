@@ -2,13 +2,12 @@ FROM public.ecr.aws/sam/build-python3.11
 ENTRYPOINT []
 
 # Install general tools
-RUN dnf install -y "dnf-command(download)"
-RUN dnf install -y tar
-RUN dnf group install -y "Development Tools"
+RUN yum install -y yum-utils tar
+RUN yum groupinstall -y "Development Tools"
 
 # Install unixODBC
 WORKDIR /root
-RUN dnf download --source unixODBC
+RUN yumdownloader --source unixODBC
 RUN rpm -ivh unixODBC*.src.rpm
 WORKDIR /root/rpmbuild/SOURCES
 RUN mkdir /root/rpmbuild/SOURCES/unixODBC
@@ -24,7 +23,7 @@ RUN curl https://packages.microsoft.com/config/rhel/9/prod.repo | tee /etc/yum.r
 RUN ACCEPT_EULA=Y dnf install -y msodbcsql18
 
 # Install pyodbc
-RUN dnf -y install unixODBC-devel
+RUN yum -y install unixODBC-devel
 RUN export CFLAGS="-I/opt/microsoft/msodbcsql18/include"
 RUN export LDFLAGS="-L/opt/microsoft/msodbcsql18/lib"
 RUN pip3 install pyodbc --upgrade --target /opt/python
