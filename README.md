@@ -45,13 +45,12 @@ Download, unzip and run docker container
 ```bash
 unzip layer.zip -d layer-test
 cd layer-test
-docker run --rm -v $(pwd):/opt -it public.ecr.aws/sam/build-python3.12 /bin/bash
+docker run --rm -v $(pwd):/opt -it public.ecr.aws/sam/build-python3.12 python
 ```
 
 Import library
 
 ```python
-python
 import sys
 sys.path.append('/opt/python')
 import pyodbc
