@@ -47,7 +47,7 @@ jobs:
         uses: actions/download-artifact@v4
 
       - name: List artifacts
-        run: ls -R
+        run: find
 
       - name: Create Release
         uses: ncipollo/release-action@v1
