@@ -66,3 +66,16 @@ jobs:
           artifacts: "pyodbc-mssql-python-*/*.zip"
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref_name }}
+          body: |
+            # Layer Package Release
+
+            I'm pleased to announce the latest build of my pyodbc layers for SQL Server connectivity is here. Please select the appropriate package based on your Lambda runtime environment:
+
+            **pyodbc-mssql-python-3.11-arm64.zip**: For Python 3.11 on ARM64 Lambda environments.
+            **pyodbc-mssql-python-3.11-x86_64.zip**: For Python 3.11 on x86_64 Lambda environments.
+            **pyodbc-mssql-python-3.12-arm64.zip**: For Python 3.12 on ARM64 Lambda environments.
+            **pyodbc-mssql-python-3.12-x86_64.zip**: For Python 3.12 on x86_64 Lambda environments.
+
+            Choose the package matching your Python version and architecture for optimal performance.
+
+            Thank you for using our layers to power your serverless applications!

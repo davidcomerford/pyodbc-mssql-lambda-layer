@@ -8,7 +8,7 @@ AWS Lambda layer to connect to SQL Server using PyODBC, UnixODBC and Microsoft O
 
 - Builds for Python 3.11 and 3.12
 
-- Builds for x86_64 and ARM64
+- Also builds for x86_64 and ARM64
 
 - Microsoft ODBC 18 for SQL Server
 
@@ -16,14 +16,13 @@ AWS Lambda layer to connect to SQL Server using PyODBC, UnixODBC and Microsoft O
 
     I'm pulling the latest version from the Amazon Linux 2023 repository so that'll tick your security boxes.
 
-
-<br>
+</br>
 
 ## Download Prebuilt Release
 
 https://github.com/davidcomerford/pyodbc-mssql-lambda-layer/releases/latest
 
-<br>
+</br>
 
 ## Or Build Your Own
 
