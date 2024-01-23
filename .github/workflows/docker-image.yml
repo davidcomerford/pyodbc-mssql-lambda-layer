@@ -35,7 +35,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: pyodbc-mssql-python-${{ matrix.python-version }}-${{ matrix.architecture }}
-        path: pyodbc-mssql-python-${{ matrix.python-version }}-${{ matrix.architecture }}.zip
+        path: /tmp/pyodbc-mssql-python-${{ matrix.python-version }}-${{ matrix.architecture }}.zip
         retention-days: 1
 
   create-release:
