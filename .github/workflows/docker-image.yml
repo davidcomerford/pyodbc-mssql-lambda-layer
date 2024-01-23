@@ -23,6 +23,10 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
+    - name: Variables
+      run: |
+        export DOCKER_DEFAULT_PLATFORM=linux/${{ matrix.architecture }}
+
     - name: Build the Docker image
       run: |
         docker buildx build --platform linux/${{ matrix.architecture }} --load --file Dockerfile.python.${{ matrix.python-version }}.${{ matrix.architecture }} --tag pyodbc-mssql-${{ matrix.architecture }} .
@@ -33,10 +37,10 @@ jobs:
 
     - name: Run Tests
       run: |
-        docker run -d --name tester --entrypoint tail pyodbc-mssql-${{ matrix.architecture }} -f /dev/null --platform linux/${{ matrix.architecture }}
-        docker cp tests/test_pyodbc.py tester:/tmp --platform linux/${{ matrix.architecture }}
-        docker exec tester bash -c "pip install pytest" --platform linux/${{ matrix.architecture }}
-        docker exec tester bash -c "pytest /tmp/test_pyodbc.py" --platform linux/${{ matrix.architecture }}
+        docker run -d --name tester --entrypoint tail pyodbc-mssql-${{ matrix.architecture }} -f /dev/null
+        docker cp tests/test_pyodbc.py tester:/tmp
+        docker exec tester bash -c "pip install pytest"
+        docker exec tester bash -c "pytest /tmp/test_pyodbc.py"
         docker exec tester bash -c "/root/rpmbuild/SOURCES/unixODBC/config.guess"
 
     - name: Upload layer artifact
