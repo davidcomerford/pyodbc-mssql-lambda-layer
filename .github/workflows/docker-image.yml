@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        architecture: [x86_64] # [x86_64, arm64]
+        architecture: [x86_64, arm64]
         python-version: ['3.11', '3.12']
 
     steps:
