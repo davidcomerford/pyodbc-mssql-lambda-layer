@@ -25,7 +25,7 @@ jobs:
 
     - name: Build the Docker image
       run: |
-        docker buildx build --platform linux/${{ matrix.architecture }} --load --file Dockerfile.python.${{ matrix.python-version }} --tag pyodbc-mssql-${{ matrix.architecture }} .
+        docker buildx build --platform linux/${{ matrix.architecture }} --load --file Dockerfile.python.${{ matrix.python-version }}.${{ matrix.architecture }} --tag pyodbc-mssql-${{ matrix.architecture }} .
 
     - name: Create Container from Image
       run: |
