@@ -1,4 +1,4 @@
-name: Lambda Layer
+name: Create Lambda Layer
 
 on:
   push:
@@ -10,7 +10,8 @@ jobs:
     strategy:
       matrix:
         architecture: [x86_64, arm64]
-    
+        python-version: ['3.11', '3.12']
+
     steps:
     - uses: actions/checkout@v3
 
@@ -22,33 +23,46 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
+    - name: Shell Variables
+      run: |
+        export DOCKER_DEFAULT_PLATFORM=linux/${{ matrix.architecture }}
+
     - name: Build the Docker image
       run: |
-        docker buildx build --platform linux/${{ matrix.architecture }} --load --file Dockerfile --tag mssql-lambda-${{ matrix.architecture }} .
+        docker buildx build --load --file Dockerfile.python.${{ matrix.python-version }}.${{ matrix.architecture }} --tag pyodbc-mssql-${{ matrix.architecture }} .
 
     - name: Create Container from Image
       run: |
-        docker run --rm --volume $(pwd):/tmp mssql-lambda-${{ matrix.architecture }} cp /layer.zip /tmp/pyodbc-mssql-python312-${{ matrix.architecture }}.zip
+        docker run --rm --volume $(pwd):/tmp pyodbc-mssql-${{ matrix.architecture }} cp /layer.zip /tmp/pyodbc-mssql-python-${{ matrix.python-version }}-${{ matrix.architecture }}.zip
+
+    - name: Run Tests
+      run: |
+        docker run -d --name tester --entrypoint tail pyodbc-mssql-${{ matrix.architecture }} -f /dev/null
+        docker cp tests/test_pyodbc.py tester:/tmp
+        docker exec tester bash -c "pip install pytest"
+        docker exec tester bash -c "pytest /tmp/test_pyodbc.py"
 
     - name: Upload layer artifact
       uses: actions/upload-artifact@v4
       with:
-        name: pyodbc-mssql-python312-${{ matrix.architecture }}.zip
-        path: pyodbc-mssql-python312-${{ matrix.architecture }}.zip
+        name: pyodbc-mssql-python-${{ matrix.python-version }}-${{ matrix.architecture }}
+        path: pyodbc-mssql-python-${{ matrix.python-version }}-${{ matrix.architecture }}.zip
+        retention-days: 1
 
   create-release:
     needs: build
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/')
+
     steps:
       - name: Download Artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
+
+      - name: List artifacts
+        run: find
 
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: |
-            pyodbc-mssql-python312-x86_64.zip
-            pyodbc-mssql-python312-arm64.zip
+          artifacts: "pyodbc-mssql-python-*/*.zip"
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref_name }}
