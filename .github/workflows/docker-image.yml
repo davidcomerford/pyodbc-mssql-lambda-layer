@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         architecture: [x86_64, arm64]
-        python-version: ['3.11', '3.12']
+        python-version: ['3.11', '3.12','3.13']
 
     steps:
     - uses: actions/checkout@v4
@@ -71,6 +71,8 @@ jobs:
             **pyodbc-mssql-python-3.11-x86_64.zip**: For Python 3.11 on x86_64 Lambda environments.
             **pyodbc-mssql-python-3.12-arm64.zip**: For Python 3.12 on ARM64 Lambda environments.
             **pyodbc-mssql-python-3.12-x86_64.zip**: For Python 3.12 on x86_64 Lambda environments.
+            **pyodbc-mssql-python-3.13-arm64.zip**: For Python 3.13 on ARM64 Lambda environments.
+            **pyodbc-mssql-python-3.13-x86_64.zip**: For Python 3.13 on x86_64 Lambda environments.
 
             Choose the package matching your Python version and architecture for optimal performance.
 
