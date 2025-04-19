@@ -30,7 +30,7 @@ https://github.com/davidcomerford/pyodbc-mssql-lambda-layer/releases/latest
 
 1. Build image
     ```bash
-    docker buildx build --file=Dockerfile.python.3.13 --tag pyodbc-mssql .
+    docker buildx build --file=Dockerfile.python.3.13.x86_64 --tag pyodbc-mssql .
     ```
 1. Run a temporary container to get the zip file 
     ```bash
