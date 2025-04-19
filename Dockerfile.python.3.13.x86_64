@@ -1,0 +1,38 @@
+FROM public.ecr.aws/sam/build-python3.13
+ENTRYPOINT []
+
+# Install general tools
+RUN dnf install -y "dnf-command(download)"
+RUN dnf install -y tar
+RUN dnf group install -y "Development Tools"
+
+# Install unixODBC
+WORKDIR /root
+RUN dnf download --source unixODBC
+RUN rpm -ivh unixODBC*.src.rpm
+WORKDIR /root/rpmbuild/SOURCES
+RUN mkdir /root/rpmbuild/SOURCES/unixODBC
+RUN tar -xvf unixODBC*.tar.gz -C unixODBC --strip-components=1
+WORKDIR /root/rpmbuild/SOURCES/unixODBC
+RUN ./configure --sysconfdir=/opt/python --disable-gui --disable-drivers --enable-iconv --with-iconv-char-enc=UTF8 --with-iconv-ucode-enc=UTF16LE --prefix=/root/unixODBC-install
+RUN make install
+RUN mv /root/unixODBC-install/bin /opt/bin
+RUN mv /root/unixODBC-install/lib /opt/lib
+
+# Install msodbcsql
+RUN curl https://packages.microsoft.com/config/rhel/9/prod.repo | tee /etc/yum.repos.d/mssql-release.repo
+RUN ACCEPT_EULA=Y dnf install -y msodbcsql18
+
+# Install pyodbc
+RUN dnf -y install unixODBC-devel
+RUN export CFLAGS="-I/opt/microsoft/msodbcsql18/include"
+RUN export LDFLAGS="-L/opt/microsoft/msodbcsql18/lib"
+RUN pip3 install pyodbc --upgrade --target /opt/python
+
+# Create odbc.ini and odbcinst.ini
+RUN echo $'[ODBC Driver 18 for SQL Server]\nDriver = ODBC Driver 18 for SQL Server\nDescription = My ODBC Driver 18 for SQL Server\nTrace = No' > /opt/python/odbc.ini
+RUN so_file=$(ls /opt/microsoft/**/lib64/libmsodbcsql-*.so.* | grep msodbcsql18) && echo $'[ODBC Driver 18 for SQL Server]\nDescription = Microsoft ODBC Driver 17 for SQL Server\nDriver = '"$so_file"$'\nUsageCount = 1' > /opt/python/odbcinst.ini
+
+# Generate the zipped file that can be uploaded as a Lambda Layer
+WORKDIR /opt
+RUN zip -r /layer.zip .
