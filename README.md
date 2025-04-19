@@ -6,7 +6,7 @@ AWS Lambda layer to connect to SQL Server using PyODBC, UnixODBC and Microsoft O
 
 ## Features
 
-- Builds for Python 3.11 and 3.12
+- Builds for Python 3.11, 3.12 and 3.13
 
 - Also builds for x86_64 and ARM64
 
@@ -30,7 +30,7 @@ https://github.com/davidcomerford/pyodbc-mssql-lambda-layer/releases/latest
 
 1. Build image
     ```bash
-    docker buildx build --file=Dockerfile.python.3.12 --tag pyodbc-mssql .
+    docker buildx build --file=Dockerfile.python.3.13 --tag pyodbc-mssql .
     ```
 1. Run a temporary container to get the zip file 
     ```bash
@@ -44,7 +44,7 @@ Download, unzip and run python from inside a new container.
 ```bash
 unzip layer.zip -d layer-test
 cd layer-test
-docker run --rm -v $(pwd):/opt -it public.ecr.aws/sam/build-python3.12 python
+docker run --rm -v $(pwd):/opt -it public.ecr.aws/sam/build-python3.13 python
 ```
 
 When you add a layer to a function, Lambda extracts the layer contents into the /opt directory in your function’s execution environment. All Lambda runtimes include paths to specific directories within the /opt directory. This gives your function access to your layer content.
@@ -61,11 +61,10 @@ With the pyodbc module loaded, lets connect to a database and run a simple query
 
 ```python
 SERVER = 'db.microsoft.com'
-DATABASE = 'sampleDB'
 USERNAME = 'sa'
 PASSWORD = 'M3g@hrtz'
 
-connectionString = f'DRIVER={{ODBC Driver 18 for SQL Server}};SERVER={SERVER};DATABASE={DATABASE};UID={USERNAME};PWD={PASSWORD};TrustServerCertificate=yes'
+connectionString = f'DRIVER={{ODBC Driver 18 for SQL Server}};SERVER={SERVER};UID={USERNAME};PWD={PASSWORD};TrustServerCertificate=yes'
 conn = pyodbc.connect(connectionString)
 
 SQL_QUERY="""
